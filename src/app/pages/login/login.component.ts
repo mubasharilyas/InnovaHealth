@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { first, lastValueFrom } from 'rxjs';
+import { ApiService } from 'src/app/service/api.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
@@ -12,20 +13,21 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
-  loading:boolean=false
+  loading: boolean = false
 
   constructor(
-    private route: ActivatedRoute,
+    private api: ApiService,
     private router: Router,
     private authenticationService: AuthenticationService,
   ) { }
 
   ngOnInit(): void {
-
+    console.log("dd")
+    this.api.get('alerts', 1).subscribe(data=>console.log(data))
     this.loginForm = new FormGroup({
-      email: new FormControl('',[Validators.required]),
-      password: new FormControl('',[Validators.required])
-      
+      email: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
+
     });
   }
 
@@ -35,18 +37,18 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loading = true;
-   let data = await lastValueFrom(this.authenticationService.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value))
-       console.log("data",data)
-   if(data) {
-            if (data.message==='Auth Successful') {
-            this.router.navigate(["/dashboard"]);
-          }
-          this.loading = false;
-        }
-        else {
-          this.loading = false;
-        }
-      
+    let data = await lastValueFrom(this.authenticationService.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value))
+    console.log("data", data)
+    if (data) {
+      if (data.message === 'Auth Successful') {
+        this.router.navigate(["/dashboard"]);
+      }
+      this.loading = false;
+    }
+    else {
+      this.loading = false;
+    }
+
   }
 
 }
