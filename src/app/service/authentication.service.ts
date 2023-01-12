@@ -1,0 +1,53 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { User } from '../models/user';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthenticationService {
+  private currentUserSubject: BehaviorSubject<User>;
+  public currentUser: Observable<User>;
+         
+     constructor(private http: HttpClient) {
+      this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')!));
+      this.currentUser = this.currentUserSubject.asObservable();
+  }
+
+  public get currentUserValue(): User {
+      return this.currentUserSubject.value;
+  }
+
+
+     login(email: any, password: any) {
+      return this.http.post<any>(`${environment.API_URL}/login`, { email, password})
+          .pipe(tap(response => {
+
+              if (response.success) {
+                  // store user details and jwt token in local storage to keep user logged in between page refreshes
+                  localStorage.setItem('currentUser', JSON.stringify(response));
+                  localStorage.setItem('token', JSON.stringify(response.token));
+
+                  this.currentUserSubject.next(response);
+                  //  this.isLOgedin=true
+                  return response;
+              } else {
+                  return response.message;
+              }
+
+          }))
+  }
+
+  logout() {
+    console.log("logout")
+    this.currentUserSubject.next(null!);
+  
+    // remove user from local storage and set current user to null
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    //  this.isLOgedin=false
+}
+}

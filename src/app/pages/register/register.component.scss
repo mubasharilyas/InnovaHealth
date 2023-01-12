@@ -1,0 +1,266 @@
+/* Font Family */
+
+
+/* @import url("https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;900&display=swap"); */
+
+
+/* @font-face {
+  font-family: 'ProximaNova';
+  src: url(../fonts/proxima-nova.ttf);
+} */
+
+.btn-social {
+    width: 100%;
+}
+
+.message {
+    padding: 2rem;
+    text-align: center;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: white;
+    padding: 8px 20px;
+}
+
+.signin-page {
+    height: 100vh;
+    max-height: calc(100vh - 56px);
+    overflow: auto;
+    background-position: top left;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    z-index: 0;
+}
+
+.signin-page::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgb(0 0 0 / 40%);
+    z-index: -1;
+}
+
+nav .signup-btn {
+    background: #ef662f;
+    color: white;
+    box-shadow: none;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 14px;
+}
+
+
+/* The container */
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* Hide the browser's default checkbox */
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+
+/* Create a custom checkbox */
+
+.checkmark {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #eee;
+    border-radius: 2px;
+}
+
+
+/* On mouse-over, add a grey background color */
+
+.checkbox-container:hover input~.checkmark {
+    background-color: #ccc;
+}
+
+
+/* When the checkbox is checked, add a blue background */
+
+.checkbox-container input:checked~.checkmark {
+    background-color: #2196F3;
+}
+
+
+/* Create the checkmark/indicator (hidden when not checked) */
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+
+/* Show the checkmark when checked */
+
+.checkbox-container input:checked~.checkmark:after {
+    display: block;
+}
+
+
+/* Style the checkmark/indicator */
+
+.checkbox-container .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.login-centered-box {
+    width: 550px;
+    background: rgb(0 0 0 / 60%);
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    transform: translate(-50%, -50%);
+    padding: 30px;
+    border-radius: 5px;
+    max-width: calc(100% - 20px);
+    max-height: calc(100% - 56px);
+    overflow: auto;
+}
+
+.login-centered-box h3 {
+    color: white;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.login-centered-box a,
+.login-centered-box input:not([type=checkbox]) {
+    display: block;
+    width: 100%;
+}
+
+.login-centered-box .btn>img {
+    height: 26px;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.login-centered-box .fb-btn,
+.login-centered-box .g-btn {
+    margin-bottom: 15px;
+    font-size: 16px;
+    height: 45px;
+    position: relative;
+    line-height: 31px;
+}
+
+.login-centered-box .fb-btn {
+    background: #3d5a96;
+    color: white;
+}
+
+.login-centered-box .g-btn {
+    background: white;
+}
+
+.login-centered-box .or-login {
+    color: white;
+    background: black;
+    padding: 2px 0 4px 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+.login-centered-box .form-input {
+    height: 45px;
+    padding: 0 16px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    color: #eee;
+    background: #000;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    caret-color: #444;
+}
+
+.login-centered-box .form-input:focus {
+    background: white;
+    color: black;
+}
+
+.login-centered-box .form-input:focus::placeholder {
+    color: black;
+}
+
+.login-centered-box .checkbox-container {
+    color: white;
+    font-size: 14px;
+}
+
+.login-centered-box .login-btn {
+    font-weight: 500;
+    padding: 12px;
+    margin-bottom: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.login-centered-box .last-row {
+    color: white;
+    font-size: 14px;
+}
+
+.login-centered-box .last-row a {
+    color: #4d82f1;
+    display: inline;
+    padding-left: 5px;
+}
+
+.login-centered-box .last-row a:hover {
+    cursor: pointer;
+}
+
+.warn {
+    color: rgb(213, 38, 38);
+    font-size: large;
+    display: flex;
+    justify-content: center;
+}
+
+.text-xs {
+    margin-top: 5px;
+    font-size: 10px
+}

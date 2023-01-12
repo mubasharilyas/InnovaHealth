@@ -1,0 +1,78 @@
+<div class="signin-page">
+
+
+    <!-- signup form -->
+    <div class="login-centered-box">
+        <!-- <h3>PLAN YOUR NEXT ATTACK</h3>
+        <div class="">
+            <button (click)="signUpWithFB()" class="btn btn-social fb-btn">
+                <img src="assets/img/facebook.svg" /> Sign up using Facebook
+            </button>
+        </div>
+        <div class="">
+            <button (click)="signUpWithGoogle()" class="btn btn-social g-btn">
+                <img src="assets/img/google.svg" /> Sign up with Google
+            </button>
+        </div> -->
+
+        <h3 class="center">Sign up with your email</h3>
+        <form [formGroup]="registerForm" >
+          
+            <div>
+                <input placeholder="Username" type="text" formControlName="username" class="form-input"/>
+                <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div> -->
+            </div>
+            <div>
+                <input placeholder="Email" type="email" formControlName="email" class="form-input"  />
+                <!-- <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                    <div *ngIf="f.email.errors.required">Email is required</div>
+                    <div *ngIf="f.email.errors.email">
+                        Email must be a valid email address
+                    </div>
+                </div> -->
+            </div>
+            <div>
+                <input placeholder="Password" type="password" formControlName="password" class="form-input" />
+                <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <div *ngIf="f.password.errors.required">Password is required</div>
+                    <div *ngIf="f.password.errors.minlength">
+                        Password must be at least 6 characters
+                    </div>
+                </div> -->
+            </div>
+            <div class="d-flex flex-row">
+                <label class="mb-2 text-white">Gender</label>
+                <input id="male" type="radio" class="custom-control-input" value="male" name="gender" checked formControlName="gender" >
+                <label class="text-white custom-control-label" for="male">Male</label>
+                <input id="female" type="radio" class="custom-control-input" value="female" name="gender" formControlName="gender">
+                <label class="text-white custom-control-label" for="female">Female</label>
+             </div>
+            
+
+            <div>
+                <button (click)="onSubmit()" class="btn btn-primary">
+                    <!-- <span  class="spinner-border spinner-border-sm mr-1"></span>
+                    -->Sign up 
+                </button>
+            </div>
+        </form>
+        <!-- <div class="message"></div>
+        <button class="btn login-btn">
+            Back
+        </button> -->
+
+        <div class="row last-row">
+            <span>Already a member? <a routerLink="/login"> Login</a></span>
+            <p class="text-xs">By signing up with SOFFRA you agree to our
+                <a>Terms of Services. </a> View our
+                <a>Privacy Policy </a>
+            </p>
+
+            <!-- <div class="col-6">
+                <a routerLink="/account/forgetpassword" class="text-right float-right">Forgot password?</a>
+            </div> -->
+        </div>
+    </div>
+</div>
