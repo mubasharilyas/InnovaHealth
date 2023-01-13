@@ -1,9 +1,8 @@
-
- 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 <body>
+
     <div class="p-2">
         <div class="searchContainer  justify-content-between">
             <label class="fw-bold fs-4"> Contacts List</label>
@@ -12,11 +11,11 @@
                     <div class="input-group input-group-sm">
                         <input #search class="form-control" type="search" placeholder="search"
                             id="example-search-input">
-                            <i class="position-absolute fa fa-search end-0 mt-2 mx-2" aria-hidden="true"></i>
+                        <i class="position-absolute fa fa-search end-0 mt-2 mx-2" aria-hidden="true"></i>
                     </div>
 
                 </div>
-                <div class="d-flex align-items-center">
+                <div class="sort-margin d-flex align-items-center">
                     <span class="sort">Sort:</span>
                     <div class="col-md-4">
                         <div class="switch6"
@@ -46,8 +45,8 @@
             </thead>
             <tbody *ngIf="!contactLoading">
                 <tr
-                    *ngFor="let contact of contacts.contacts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overall_totals,id:'contact'}">
-                    <th scope="row">1</th>
+                    *ngFor="let contact of contacts.contacts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overall_totals,id:'contact'};let i=index">
+                    <th scope="row">{{i+1}}</th>
                     <td>{{contact.contactName}}</td>
                     <td>{{contact.contactState}}</td>
                     <td>{{contact.contactStatus}}</td>
@@ -55,8 +54,18 @@
 
             </tbody>
 
+
         </table>
-        <div class="d-sm-flex  justify-content-between">
+        <div *ngIf="!contactLoading && overall_totals==0"
+            class="d-flex align-items-center justify-content-center">
+            <span>
+                <p class="text-center mt-2"> <i class="fa fa-search fs-3" aria-hidden="true"></i></p>
+                <p class=" fs-5">Contact is not Found</p>
+            </span>
+        </div>
+
+
+        <div *ngIf="overall_totals!=0" class="d-sm-flex  justify-content-between">
             <div class="d-flex align-items-center justify-content-center">
                 <p class="text-sm ">Showing
                     <span>{{initial_page}}</span>
@@ -68,7 +77,8 @@
                 </p>
             </div>
             <div class="mt-0 d-flex justify-content-center align-items-center">
-                <pagination-controls id="contact" (pageChange)="pageChanged($event)"  previousLabel="Prev" nextLabel="Next" [responsive]=true></pagination-controls>
+                <pagination-controls id="contact" (pageChange)="pageChanged($event)" previousLabel="Prev"
+                    nextLabel="Next" [responsive]=true></pagination-controls>
             </div>
         </div>
 

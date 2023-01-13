@@ -14,6 +14,9 @@ totalContacts:any
 totalStates:any
 results:any
 alerts:any
+isLoading:boolean=false
+ContactsAndStats_Loading:boolean=false
+
   constructor(private api:ApiService) { }
 
   ngOnInit(): void {
@@ -22,11 +25,16 @@ alerts:any
   }
 
   async getTotalContactsAndStats(){
+    this.ContactsAndStats_Loading=true
     this.results = await lastValueFrom(this.api.get('contact-stats'))
     console.log("respons",this.results)
     this.totalContacts=this.results.totalContacts
     this.totalStates=this.results.totalStates
+    this.ContactsAndStats_Loading=false
 
+  }
+  onLoading(event:boolean){
+this.isLoading=event
   }
  
 

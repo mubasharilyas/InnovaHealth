@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { debounceTime, distinctUntilChanged, filter, fromEvent, lastValueFrom, Observable, Subscription, tap } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
 
@@ -9,6 +9,8 @@ import { ApiService } from 'src/app/service/api.service';
 })
 export class ContactsComponent implements OnInit,AfterViewInit {
   @ViewChild('search')search!: ElementRef;
+  @Output() isLoading = new EventEmitter<boolean>(false);
+
   page:number=1
   limit:number=10
   sort:number=1
@@ -18,7 +20,7 @@ export class ContactsComponent implements OnInit,AfterViewInit {
   overall_totals!:number
   SearchSubcription!: Subscription
   contactLoading:boolean=false
-
+  
 
     constructor(private api:ApiService) { }
   
@@ -29,6 +31,9 @@ export class ContactsComponent implements OnInit,AfterViewInit {
   
   
     async getContacts(page:number,sort:number,search:string){
+      this.contactLoading=true
+      this.isLoading.emit(true);
+      try{
       let res = await lastValueFrom(this.api.getContact('contacts',page,sort,search))
       this.contacts=res
       console.log("contacts",res)
@@ -49,6 +54,13 @@ export class ContactsComponent implements OnInit,AfterViewInit {
         }
         this.overall_totals=this.contacts.totalCount
       }
+      this.contactLoading=false
+      this.isLoading.emit(false);
+    }
+    catch(error) {
+      this.contactLoading=false
+      this.isLoading.emit(false);
+    }
     }
    
     ngAfterViewInit():void{
@@ -63,9 +75,12 @@ export class ContactsComponent implements OnInit,AfterViewInit {
           this.page=1
           this.sort=1
           this.contactLoading=true
+          this.isLoading.emit(true);
+
           this.getContacts(this.page,this.sort,this.search.nativeElement.value);
           setTimeout(()=>{
             this.contactLoading=false
+            this.isLoading.emit(false);
           },1000)
         })
       ).subscribe();

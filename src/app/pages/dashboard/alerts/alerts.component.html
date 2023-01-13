@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <body>
     <div>
         
@@ -32,17 +34,23 @@
         <th scope="col">Message</th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let alert of alerts.alerts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overall_total, id:'alert'}">
-        <th scope="row">1</th>
+    <tbody *ngIf="!alertLoading">
+      <tr *ngFor="let alert of alerts.alerts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overall_total, id:'alert'};let i=index">
+        <th scope="row">{{i+1}}</th>
         <td>{{alert.errorCategory}}</td>
         <td>{{alert.errorSeverity}}</td>
         <td>{{alert.errorMessage}}</td>
     </tr>
-     
     </tbody>
   </table>
-  <div class="d-sm-flex  justify-content-between">
+  <div *ngIf="!alertLoading && overall_total==0"
+  class="d-flex align-items-center justify-content-center">
+  <span>
+      <p class="text-center mt-2"> <i class="fa fa-search fs-3" aria-hidden="true"></i></p>
+      <p class=" fs-5">Alert is not Found</p>
+  </span>
+</div>
+  <div *ngIf="overall_total!=0" class="d-sm-flex  justify-content-between">
     <div class="d-flex align-items-center justify-content-center">
        <p class="text-sm ">Showing
         <span>{{initial_page}}</span>
