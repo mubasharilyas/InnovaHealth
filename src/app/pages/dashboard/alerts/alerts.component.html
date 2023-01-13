@@ -1,37 +1,61 @@
 <body>
     <div>
-        <label class="fw-bold pl-2" > Alerts List</label>
+        
+        <div class="searchContainer  justify-content-between">
+          <label class="fw-bold fs-4"> Alert List</label>
+          <div class="searchandSort w-20  justify-content-end w-75">
+              <div class="d-flex align-items-center">
+                  <span class="sort">Sort:</span>
+                  <div class="col-md-4">
+                      <div class="switch6"
+                          style="width: 10rem; margin-right: 0; border:1px solid #999999;border-radius: 10px; ">
+                          <label class="switch6-light">
+                              <input type="checkbox">
+                              <span>
+                                  <span (click)="sortData(1)">Asc</span>
+                                  <span (click)="sortData(-1)">Dec</span>
+                              </span>
+                              <a class="btn btn-success"></a>
+                          </label>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-<table class="table">
+<table class="table border mt-2">
     <thead>
       <tr>
         <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">Category</th>
+        <th scope="col">Severity</th>
+        <th scope="col">Message</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr *ngFor="let alert of alerts.alerts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overall_total, id:'alert'}">
         <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
+        <td>{{alert.errorCategory}}</td>
+        <td>{{alert.errorSeverity}}</td>
+        <td>{{alert.errorMessage}}</td>
+    </tr>
+     
     </tbody>
   </table>
-  <pagination-controls (pageChange)="page = $event"></pagination-controls>
-
+  <div class="d-sm-flex  justify-content-between">
+    <div class="d-flex align-items-center justify-content-center">
+       <p class="text-sm ">Showing
+        <span>{{initial_page}}</span>
+        to
+        <span>{{total_page}}</span>
+        of
+        <span>{{overall_total}}</span>
+        results
+       </p>
+    </div>
+    <div class="mt-0 d-flex justify-content-center align-items-center">
+        <pagination-controls id='alert' (pageChange)="alertPageChanged($event)"  previousLabel="Prev" nextLabel="Next" [responsive]=true></pagination-controls>
+    </div>
+</div>
     </div>
 </body>

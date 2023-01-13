@@ -25,8 +25,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("dd")
-    this.api.get('alerts', 1).subscribe(data=>console.log(data))
+   
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])

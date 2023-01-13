@@ -6,7 +6,7 @@ const contactSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     contactId: String,
     contactStatus: String,
-    contactName: Number,
+    contactName: String,
     contactGround: String,
     contactSatellite: String,
     contactEquipment: String,

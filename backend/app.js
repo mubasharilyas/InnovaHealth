@@ -102,33 +102,83 @@ app.post("/login", (req, res) => {
 
 /////// GET CONTACTS /////////
 
-app.get("/contacts/:page", Auth, async (req, res) => {
-  let page = req.params.page * 1 - 1;
-  let skip = 10 * page;
-  res.set('Access-Control-Allow-Origin', 'http://localhost:4200');
+app.get("/contacts/:page/sortBy/:sort/:cName?",Auth,async(req,res)=>{
+  let sortBy = {};
+  sortBy['contactName'] = +req.params.sort;
+  let filter = {};
+  filter = req.params.cName ? {contactName:{ $regex: req.params.cName }}:{};
+  // filter = req.params.cName ? {contactName:req.params.cName}:{};
+  console.log("Filter",filter);
+  let page = req.params.page*1 -1;
+  let skip = 10*page;
+  try{
+      const [contacts,count] = await Promise.all([Contact.find(filter).limit(10).skip(skip).sort(sortBy),Contact.countDocuments(filter)])
+      res.status(200).send({totalCount:count,results:contacts.length,contacts});
+  }
+  catch(err){
+      res.status(500).send(err);
+  }
+})
 
-  try {
-    const [contacts, count] = await Promise.all([Contact.find().limit(10).skip(skip), Contact.countDocuments()])
-    res.status(200).send({ totalCount: count, results: contacts.length, contacts });
-  }
-  catch (err) {
-    res.status(500).send(err);
-  }
+
+/////// GET CONTACTS-STATS /////////
+
+app.get("/contact-stats",async(req,res)=>{
+try {
+  const stats = await Contact.aggregate([
+    {
+      $group:{
+        _id:'$contactState',
+        count:{$sum:1}
+      }
+    },
+    {
+      $group:{
+        _id:null,
+        totalStates:{$sum:1},
+        totalContacts:{$sum:'$count'}
+      }
+    },
+    {
+      $project:{_id:0}
+    }
+])
+res.status(200).send(stats[0]);
+} catch (error) {
+  res.send(500).send(error)
+}
 })
 
 /////// GET ALERTS /////////
 
-app.get("/alerts/:page", Auth, async (req, res) => {
-  console.log("called")
-  let page = req.params.page * 1 - 1;
-  let skip = 10 * page;
-  res.set('Access-Control-Allow-Origin', 'http://localhost:4200');
-  try {
-    const [alerts, count] = await Promise.all([Alert.find().limit(10).skip(skip), Alert.countDocuments()])
-    res.status(200).send({ totalCount: count, results: alerts.length, alerts });
+app.get("/alerts/:page/sortBy/:sort",Auth,async(req,res)=>{
+  let sortBy = {};
+  sortBy['errorCategory'] = +req.params.sort;
+  let page = req.params.page*1 -1;
+  let skip = 10*page;
+  try{
+      const [alerts,count] = await Promise.all([Alert.find().limit(10).skip(skip).sort(sortBy),Alert.countDocuments()])
+      res.status(200).send({totalCount:count,results:alerts.length,alerts});
   }
-  catch (err) {
-    res.status(500).send(err);
+  catch(err){
+      res.status(500).send(err);
+  }
+})
+///// CREATE OR UPDATE CONTACT /////////
+app.patch("/create-contact/:id?",Auth,async(req,res)=>{
+  let cId = req.params.id;
+
+  try {
+    if(cId){
+      const result = await Contact.findOneAndUpdate({contactId:cId},{$set:req.body.data},{new:true});
+      res.send(result);
+    }
+    else{
+      const result = await Contact.create(req.body.data);
+      res.send(result);
+    }
+  } catch (error) {
+    res.send(error);
   }
 })
 

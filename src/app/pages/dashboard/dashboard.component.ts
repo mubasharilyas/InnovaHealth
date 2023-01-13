@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -9,22 +10,24 @@ import { ApiService } from 'src/app/service/api.service';
 })
 export class DashboardComponent implements OnInit {
 page:number=1
-contacts:any
+totalContacts:any
+totalStates:any
+results:any
 alerts:any
   constructor(private api:ApiService) { }
 
   ngOnInit(): void {
-    this.getAlerts()
-    this.getContacts()
+   
+    this.getTotalContactsAndStats()
   }
 
+  async getTotalContactsAndStats(){
+    this.results = await lastValueFrom(this.api.get('contact-stats'))
+    console.log("respons",this.results)
+    this.totalContacts=this.results.totalContacts
+    this.totalStates=this.results.totalStates
 
-
-  async getContacts(){
-    this.contacts= await lastValueFrom(this.api.get('contacts',this.page))
   }
-  async getAlerts(){
-    this.alerts= await lastValueFrom(this.api.get('alerts',this.page))
-  }
+ 
 
 }
