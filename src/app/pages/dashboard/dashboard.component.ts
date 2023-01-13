@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 
 @Component({
@@ -17,7 +18,7 @@ alerts:any
 isLoading:boolean=false
 ContactsAndStats_Loading:boolean=false
 
-  constructor(private api:ApiService) { }
+  constructor(private api:ApiService, public authenticationService:AuthenticationService) { }
 
   ngOnInit(): void {
    
