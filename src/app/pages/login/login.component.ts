@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { first, lastValueFrom } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
 import { AuthenticationService } from 'src/app/service/authentication.service';
-
+import { NotificationService } from 'src/app/service/notification.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,6 +19,9 @@ export class LoginComponent implements OnInit {
     private api: ApiService,
     private router: Router,
     private authenticationService: AuthenticationService,
+    private notification:NotificationService,
+
+
   ) { }
 
   ngOnInit(): void {
@@ -37,18 +40,28 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loading = true;
-    let data = await lastValueFrom(this.authenticationService.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value))
-    console.log("data", data)
-    if (data) {
-      if (data.message === 'Auth Successful') {
-        this.router.navigate(["/dashboard"]);
+    try{
+      let data = await lastValueFrom(this.authenticationService.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value))
+      console.log("data", data)
+      if (data) {
+        if (data.message === 'Auth Successful') {
+          this.router.navigate(["/dashboard"]);
+          // this.notification.showSuccess();
+        }else
+        this.loading = false;
       }
+      else {
+        this.loading = false;
+        this.notification.showError('Something wrong');
+      }
+    }catch(err){
+      this.notification.showError('Something wrong');
       this.loading = false;
     }
-    else {
-      this.loading = false;
-    }
+   
 
   }
+
+  
 
 }

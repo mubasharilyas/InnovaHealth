@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first, lastValueFrom } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
-
+import { NotificationService } from 'src/app/service/notification.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -13,7 +13,10 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   loading:boolean=false
   message!: string;
-  constructor(private api:ApiService,private router:Router) { }
+  constructor(private api:ApiService,
+              private router:Router,
+              private toast:NotificationService
+              ) { }
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -32,17 +35,24 @@ export class RegisterComponent implements OnInit {
       return;
     }
     this.loading = true;
-   let data= await lastValueFrom(this.api.register(this.registerForm.value));
-  console.log("resgister response",data)
+    try{
+         let data= await lastValueFrom(this.api.register(this.registerForm.value));
+         console.log("resgister response",data)
         if(data){
           this.loading = false;
           this.registerForm.reset()
+          this.toast.showSuccess('Register Successfully');
           this.router.navigate(["/login"]);
         }
         else{
+          this.toast.showError('something wrong');
           this.loading = false;
           // this.message = error.message;
+        
         }
+      }catch(err){
+        this.toast.showError('something wrong');
+      }
 
   }
 
