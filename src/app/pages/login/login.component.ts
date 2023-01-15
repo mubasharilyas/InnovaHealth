@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit {
   loading: boolean = false
 
   constructor(
-    private api: ApiService,
     private router: Router,
     private authenticationService: AuthenticationService,
     private notification:NotificationService,
@@ -45,7 +44,7 @@ export class LoginComponent implements OnInit {
       if (data) {
         if (data.message === 'Auth Successful') {
           this.router.navigate(["/dashboard"]);
-          // this.notification.showSuccess();
+          this.notification.showSuccess('Logged In Successfully');
         }else
         this.loading = false;
       }
