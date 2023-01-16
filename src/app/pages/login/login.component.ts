@@ -18,13 +18,13 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private notification:NotificationService,
+    private notification: NotificationService,
 
 
   ) { }
 
   ngOnInit(): void {
-   
+
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
@@ -38,28 +38,27 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loading = true;
-    try{
+    try {
       let data = await lastValueFrom(this.authenticationService.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value))
-      console.log("data", data)
-      if (data) {
-        if (data.message === 'Auth Successful') {
-          this.router.navigate(["/dashboard"]);
-          this.notification.showSuccess('Logged In Successfully');
-        }else
+
+      if (data && data.success) {
+        this.router.navigate(["/dashboard"]);
+        this.notification.showSuccess('Logged In Successfully');
+      } else {
         this.loading = false;
+        this.notification.showError(data.errorMessage);
+
       }
-      else {
-        this.loading = false;
-        this.notification.showError('Something wrong');
-      }
-    }catch(err){
-      this.notification.showError('Something wrong');
+
+
+    } catch (err) {
+      this.notification.showError('Something went wrong');
       this.loading = false;
     }
-   
+
 
   }
 
-  
+
 
 }

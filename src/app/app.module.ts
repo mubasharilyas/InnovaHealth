@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgToastModule } from 'ng-angular-popup'
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ContactsComponent } from './pages/dashboard/contacts/contacts.component';
 import { AlertsComponent } from './pages/dashboard/alerts/alerts.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { createCustomElement } from '@angular/elements';
 
 @NgModule({
   declarations: [
@@ -20,8 +21,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
     DashboardComponent,
     ContactsComponent,
     AlertsComponent,
-    
+
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -32,6 +35,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgToastModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, AlertsComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private injector: Injector) {
+    const el = createCustomElement(AlertsComponent, { injector });
+    customElements.define('custom-alett-widget', el);
+  }
+  ngDoBootstrap() { }
+}

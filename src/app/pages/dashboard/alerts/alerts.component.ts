@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { ApiService } from 'src/app/service/api.service';
+import { NotificationService } from 'src/app/service/notification.service';
 
 @Component({
   selector: 'app-alerts',
@@ -18,7 +19,8 @@ export class AlertsComponent implements OnInit {
   overall_total: number = 0
   alerts: any = []
   alertLoading: boolean = false
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService,
+    private toaster: NotificationService) { }
 
   ngOnInit(): void {
     this.getAlerts(this.page, this.sort)
@@ -31,30 +33,35 @@ export class AlertsComponent implements OnInit {
     this.isLoading.emit(true);
     this.alertLoading = true
     try {
-      this.alerts = await lastValueFrom(this.api.getAlerts('alerts', page, sort))
-      console.log("contacts", this.alerts)
+      this.alerts = await lastValueFrom(this.api.getAlerts('alert/get-alerts', page, sort))
       this.isLoading.emit(false);
+      if (!this.alerts.errorMessage) {
+        if (page == 1) {
+          this.initial_page = page,
+            this.total_page = this.alerts.alerts.length,
+            this.overall_total = this.alerts.totalCount
 
-      if (page == 1) {
-        this.initial_page = page,
-          this.total_page = this.alerts.results,
+        }
+        else if (page > 1) {
+          this.initial_page = ((page - 1) * 10) + 1
+          if (this.alerts.alerts.length == 10) {
+            this.total_page = (this.alerts.alerts.length * page)
+          }
+          else {
+            this.total_page = (this.alerts.alerts.length + ((page - 1) * 10))
+
+          }
           this.overall_total = this.alerts.totalCount
-
-      }
-      else if (page > 1) {
-        this.initial_page = ((page - 1) * 10) + 1
-        if (this.alerts.alerts.length == 10) {
-          this.total_page = (this.alerts.alerts.length * page)
         }
-        else {
-          this.total_page = (this.alerts.alerts.length + ((page - 1) * 10))
+      } else {
+        this.toaster.showError(this.alerts.errorMessage);
 
-        }
-        this.overall_total = this.alerts.totalCount
       }
       this.alertLoading = false
     }
     catch (error) {
+      this.toaster.showError("Network Error");
+
       this.alertLoading = false
     }
   }

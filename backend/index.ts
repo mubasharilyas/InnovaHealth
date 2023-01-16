@@ -5,6 +5,7 @@ dotenv.config();
 import * as userController from './src/controllers/userController';
 
 import {db} from './src/config/database';
+console.log(db)
 import fs from 'fs';
 import {Auth} from './src/middlewares/auth'
 import { Alert } from './src/models/alert';
