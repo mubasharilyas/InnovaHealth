@@ -32,7 +32,6 @@ export class AuthenticationService {
                   localStorage.setItem('token', JSON.stringify(response.token));
 
                   this.currentUserSubject.next(response);
-                  //  this.isLOgedin=true
                   return response;
               } else {
                   return response.message;

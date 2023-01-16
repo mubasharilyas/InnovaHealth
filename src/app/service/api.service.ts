@@ -2,13 +2,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  constructor(private http:HttpClient) { }
+  user:User
+  constructor(private http:HttpClient,private authentication:AuthenticationService) { 
+    this.user=this.authentication.currentUserValue
+    console.log("userss",this.user)
+  }
 
   register(user: User) {
 
@@ -17,7 +22,6 @@ export class ApiService {
 
 get(uri: string) {
   let headers = new HttpHeaders({
-    // 'Content-Type': 'multipart/form-data',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
     'Authorization':`Bearer ${JSON.parse(localStorage.getItem('token')!)}` 
@@ -27,7 +31,6 @@ get(uri: string) {
 }
 getContact(uri: string,page:Number,sort:Number,_search?:string) {
   let headers = new HttpHeaders({
-    // 'Content-Type': 'multipart/form-data',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
     'Authorization':`Bearer ${JSON.parse(localStorage.getItem('token')!)}` 
@@ -36,7 +39,6 @@ getContact(uri: string,page:Number,sort:Number,_search?:string) {
 }
 getAlerts(uri: string,page:Number,sort:Number) {
   let headers = new HttpHeaders({
-    // 'Content-Type': 'multipart/form-data',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
     'Authorization':`Bearer ${JSON.parse(localStorage.getItem('token')!)}` 
