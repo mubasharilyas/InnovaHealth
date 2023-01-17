@@ -16,7 +16,8 @@ export class RegisterComponent implements OnInit {
   message!: string;
   constructor(private auth: AuthenticationService,
     private router: Router,
-    private toast: NotificationService
+    private toast: NotificationService,
+
   ) { }
 
   ngOnInit(): void {
