@@ -3,15 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgToastModule } from 'ng-angular-popup'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { LoginComponent } from './pages/login/login.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { RegisterComponent } from './features/auth/pages/register/register.component';
+import { LoginComponent } from './features/auth/pages/login/login.component';
+import { DashboardComponent } from './features/dashboard/pages/dashboard/dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { ContactsComponent } from './pages/dashboard/contacts/contacts.component';
-import { AlertsComponent } from './pages/dashboard/alerts/alerts.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ContactsComponent } from './features/dashboard/components/contacts/contacts.component';
+import { AlertsComponent } from './features/dashboard/components/alerts/alerts.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { createCustomElement } from '@angular/elements';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,13 @@ import { createCustomElement } from '@angular/elements';
     NgxPaginationModule,
     NgToastModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent, AlertsComponent]
 })
 export class AppModule {
