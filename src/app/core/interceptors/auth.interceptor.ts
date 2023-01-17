@@ -3,8 +3,7 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor,
-  HttpHeaders
+  HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
@@ -19,7 +18,6 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     let currentUser = this.authService.currentUserValue;
-
     if (currentUser && currentUser.token) {
       request = request.clone({
         setHeaders: {
@@ -29,10 +27,9 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       });
     } else {
+      // redirect to login page when user is logged out
       this.router.navigate(['/auth/login'])
     }
-    //clone request and change header
-    
     return next.handle(request);
   }
 }

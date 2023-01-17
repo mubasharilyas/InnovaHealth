@@ -27,32 +27,30 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     private toaster: NotificationService) { }
 
   ngOnInit(): void {
-    this.getContacts(this.page, this.sort, '')
+    this.getContacts()
   }
 
 
 
-  async getContacts(page: number, sort: number, search: string) {
+  async getContacts() {
     this.contactLoading = true
     this.isLoading.emit(true);
     try {
-      let res = await lastValueFrom(this.api.getContact('contact/get-contacts', page, sort, search))
-      this.contacts = res
-      console.log("contacts", res)
+      this.contacts = await lastValueFrom(this.api.get(`contact/get-contacts/${this.page}/${this.sort}/${this.search && this.search.nativeElement ? this.search.nativeElement.value : ''}`))
       if (!this.contacts.errorMessage) {
-        if (page == 1) {
-          this.initial_page = page,
+        if (this.page == 1) {
+          this.initial_page = this.page,
             this.total_page = this.contacts.contacts.length,
             this.overall_totals = this.contacts.totalCount
 
         }
-        else if (page > 1) {
-          this.initial_page = ((page - 1) * 10) + 1
+        else if (this.page > 1) {
+          this.initial_page = ((this.page - 1) * 10) + 1
           if (this.contacts.contacts.length == 10) {
-            this.total_page = (this.contacts.contacts.length * page)
+            this.total_page = (this.contacts.contacts.length * this.page)
           }
           else {
-            this.total_page = (this.contacts.contacts.length + ((page - 1) * 10))
+            this.total_page = (this.contacts.contacts.length + ((this.page - 1) * 10))
 
           }
           this.overall_totals = this.contacts.totalCount
@@ -84,7 +82,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
         this.contactLoading = true
         this.isLoading.emit(true);
 
-        this.getContacts(this.page, this.sort, this.search.nativeElement.value);
+        this.getContacts();
         setTimeout(() => {
           this.contactLoading = false
           this.isLoading.emit(false);
@@ -97,13 +95,13 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     console.log("sort", sort)
     this.sort = sort
     this.page = 1
-    this.getContacts(this.page, sort, this.search.nativeElement.value);
+    this.getContacts();
 
   }
 
   pageChanged(event: any) {
     this.page = event
-    this.getContacts(this.page, this.sort, this.search.nativeElement.value)
+    this.getContacts()
 
   }
 
