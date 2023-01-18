@@ -45,7 +45,7 @@
             <div class="d-flex flex-row">
                 <label class="mb-2 text-white">Gender</label>
                 <div class="d-flex flex-row mx-4">
-                    <input id="male" type="radio" class="custom-control-input mt-1" value="male" name="gender" checked
+                    <input id="male" type="radio" class="custom-control-input mt-1" value="male" name="gender"
                         formControlName="gender" style="height:22px; width:22px; ">
                     <label class="text-white custom-control-label mx-2" for="male">Male</label>
                 </div>
@@ -58,8 +58,8 @@
             </div>
 
 
-            <div class="d-flex flex-row text-center ">
-                <button [disabled]="registerForm.invalid" (click)="onSubmit()" class="btn btn-success text-white">
+            <div class="d-flex flex-row align-items-center justify-content-center my-2">
+                <button [disabled]="registerForm.invalid" (click)="onSubmit()" class="btn btn-success w-50  text-white" style="cursor: pointer;">
                     Sign up
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 </button>

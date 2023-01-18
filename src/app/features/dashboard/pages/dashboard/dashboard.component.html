@@ -27,28 +27,28 @@
         </div>
         <div class="navbar-nav ms-auto">
 
-          <a (click)="authenticationService.logout()" class="nav-item nav-link">Logout</a>
+          <a (click)="authenticationService.logout()" class="nav-item nav-link" style="cursor: pointer;">Logout</a>
         </div>
       </div>
     </div>
   </nav>
-  <div class="container ">
+  <div class="container-fluid  ">
    
-    <div class="row mt-4 g-6 mb-6">
+    <div class="row  mt-4 g-4 mb-6">
       <div class=" mt-2  col-sm-6 col-12">
         <div class="card shadow border-0">
           <div class="card-body">
-            <div class="row text-center">
-              <div class="col align-items-center ">
-                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total Contacts</span>
-                <span *ngIf="false" class="h3 font-bold  mb-0">{{totalContacts}}</span>
-                <div class="d-block ">
-                <p class="loading-skeleton position-absolute  h3 font-bold mt-1  mb-0 " style="height: 15px; width: 30%; background-color: rgb(168, 167, 167); border-radius: 3px;"></p>
-                <p class="loading-skeleton h3 font-bold  mt-1 mb-0 " style="height: 15px; width: 20%; background-color: rgb(168, 167, 167); border-radius: 3px;"></p>
-                <p class="loading-skeleton h3 font-bold  mt-1 mb-0 " style="height: 15px; width: 10%; background-color: rgb(168, 167, 167); border-radius: 3px;"></p>
-              
+            <div class="row text-center ">
+              <div class="col">
+                <span class="h6 font-bold fs-3 text-success d-block mb-2">Total Contacts</span>
+                <span *ngIf="!ContactsAndStats_Loading" class="h3 font-bold  mb-0">{{totalContacts}}</span>
+                <div *ngIf="ContactsAndStats_Loading"  class="d-block w-25 position-absolute  start-50  translate-middle mt-4">
+                  <p class=" loading-skeleton h3 font-bold mb-0 " style="height: 15px; width: 100%; background-color: rgb(212, 208, 208); border-radius: 3px;"></p>
+                   <p class=" loading-skeleton h3 font-bold  mt-1 mb-0 " style="height: 15px; width: 70%; background-color: rgb(212, 208, 208); border-radius: 3px;"></p>
+                   <p class=" loading-skeleton h3 font-bold  mt-1 mb-0 " style="height: 15px; width: 40%; background-color: rgb(212, 208, 208); border-radius: 3px;"></p>
+               </div>
               </div>
-              </div>
+             
               <div class="col-auto">
                 <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
                   <i class="bi bi-credit-card"></i>
@@ -69,10 +69,13 @@
           <div class="card-body">
             <div class="row text-center">
               <div class="col">
-                <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total States</span>
+                <span class="h6 fs-3 text-success  d-block mb-2">Total States</span>
                 <span *ngIf="!ContactsAndStats_Loading" class="h3 font-bold mb-0">{{totalStates}}</span>
-                <p *ngIf="ContactsAndStats_Loading" class="loading-skeleton h3 font-bold  mb-0"></p>
-                <b-skeleton></b-skeleton>
+                <div *ngIf="ContactsAndStats_Loading"  class="d-block w-25 position-absolute  start-50  translate-middle mt-4">
+                  <p class=" loading-skeleton h3 font-bold mb-0 " style="height: 15px; width: 100%; background-color: rgb(212, 208, 208); border-radius: 3px;"></p>
+                   <p class=" loading-skeleton h3 font-bold  mt-1 mb-0 " style="height: 15px; width: 70%; background-color: rgb(212, 208, 208); border-radius: 3px;"></p>
+                   <p class=" loading-skeleton h3 font-bold  mt-1 mb-0 " style="height: 15px; width: 40%; background-color: rgb(212, 208, 208); border-radius: 3px;"></p>
+               </div>
 
 
               </div>
@@ -107,7 +110,7 @@
         <custom-alett-widget (isLoading)=onLoading($event)></custom-alett-widget>
       </div>
     </div> -->
-      <div class="row ">
+      <div class="row mt-2 ">
         <div class="col">
           <app-contacts (isLoading)=onLoading($event)></app-contacts>
         </div>
