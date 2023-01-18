@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { first, lastValueFrom } from 'rxjs';
-import { ApiService } from 'src/app/core/services/api.service';
+import { lastValueFrom } from 'rxjs';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
+import { ToastService } from 'src/app/core/services/toast.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -16,7 +15,7 @@ export class RegisterComponent implements OnInit {
   message!: string;
   constructor(private auth: AuthenticationService,
     private router: Router,
-    private toast: NotificationService
+    private toast: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -28,8 +27,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  async onSubmit() {
-    console.log("form Value", this.registerForm.value)
+  async registerUser() {
 
     // stop here if form is invalid
     if (this.registerForm.invalid) {
@@ -47,11 +45,10 @@ export class RegisterComponent implements OnInit {
       else {
         this.toast.showError('something wrong');
         this.loading = false;
-        // this.message = error.message;
 
       }
     } catch (err) {
-      this.toast.showError('something wrong');
+      this.toast.showError('Something went wrong');
     }
 
   }

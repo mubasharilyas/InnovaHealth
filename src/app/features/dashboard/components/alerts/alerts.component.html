@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div>
 
-<body>
+
     <div class="p-2 mt-1">
 
         <div class="">
@@ -17,8 +17,8 @@
                             <label class="switch6-light">
                                 <input type="checkbox">
                                 <span>
-                                    <span (click)="sortData(1)">Asc</span>
-                                    <span (click)="sortData(-1)">Dec</span>
+                                    <span (click)="sortAlerts(1)">Asc</span>
+                                    <span (click)="sortAlerts(-1)">Desc</span>
                                 </span>
                                 <a class="btn btn-success"></a>
                             </label>
@@ -38,7 +38,7 @@
             </thead>
             <tbody *ngIf="!alertLoading">
                 <tr
-                    *ngFor="let alert of alerts.alerts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overall_total, id:'alert'};let i=index">
+                    *ngFor="let alert of alerts.alerts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overallTotal, id:'alert'};let i=index;trackBy:trackByFn">
                     <td>{{alert.errorMessage}}</td>
                     <td>{{alert.errorCategory}}</td>
                     <td>{{alert.errorTime}}</td>
@@ -50,27 +50,27 @@
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
-        <div *ngIf="!alertLoading && overall_total==0" class="d-flex align-items-center justify-content-center">
+        <div *ngIf="!alertLoading && overallTotal==0" class="d-flex align-items-center justify-content-center">
             <span>
                 <p class="text-center mt-2"> <i class="fa fa-search fs-3" aria-hidden="true"></i></p>
-                <p class=" fs-5">Alert is not Found</p>
+                <p class=" fs-5">No alert</p>
             </span>
         </div>
-        <div *ngIf="overall_total!=0" >
+        <div *ngIf="overallTotal!=0">
             <div class="d-flex align-items-center justify-content-center">
-                <p class="text-sm">Showing
-                    <span>{{initial_page}}</span>
+                <p class="text-sm ">Showing
+                    <span>{{initialPage}}</span>
                     to
-                    <span>{{total_page}}</span>
+                    <span>{{totalPages}}</span>
                     of
-                    <span>{{overall_total}}</span>
+                    <span>{{overallTotal}}</span>
                     results
                 </p>
             </div>
             <div class="mt-0 d-flex justify-content-center align-items-center">
-                <pagination-controls id='alert' (pageChange)="alertPageChanged($event)" previousLabel="Prev"
+                <pagination-controls id='alert' (pageChange)="onPageChange($event)" previousLabel="Prev"
                     nextLabel="Next" [responsive]=true></pagination-controls>
             </div>
         </div>
     </div>
-</body>
+</div>

@@ -22,11 +22,10 @@ export class AuthenticationService {
     }
 
     register(user: User) {
-
         return this.http.post<any>(`${environment.API_URL}/auth/register`, user);
     }
-    login(email: any, password: any) {
-        return this.http.post<any>(`${environment.API_URL}/auth/login`, { email, password })
+    login(credentials: any) {
+        return this.http.post<any>(`${environment.API_URL}/auth/login`, credentials)
             .pipe(tap(response => {
 
                 if (response.success) {
@@ -35,23 +34,18 @@ export class AuthenticationService {
                     localStorage.setItem('token', JSON.stringify(response.token));
 
                     this.currentUserSubject.next(response);
-                    return response;
-                } else {
-                    return response.message;
                 }
+                return response;
 
             }))
     }
 
     logout() {
-        console.log("logout")
         this.currentUserSubject.next(null!);
 
         // remove user from local storage and set current user to null
         localStorage.removeItem('currentUser');
         localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
         this.router.navigate(['/auth/login'])
-        //  this.isLOgedin=false
     }
 }

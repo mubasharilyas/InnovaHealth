@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { first, lastValueFrom } from 'rxjs';
-import { ApiService } from 'src/app/core/services/api.service';
+import { Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
+import { ToastService } from 'src/app/core/services/toast.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -17,18 +16,14 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
-    private notification: NotificationService,
-
-
+    private auth: AuthenticationService,
+    private toaster: ToastService,
   ) { }
 
   ngOnInit(): void {
-
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required])
-
     });
   }
 
@@ -39,20 +34,19 @@ export class LoginComponent implements OnInit {
     }
     this.loading = true;
     try {
-      let data = await lastValueFrom(this.authenticationService.login(this.loginForm.controls['email'].value, this.loginForm.controls['password'].value))
+      let data = await lastValueFrom(this.auth.login(this.loginForm.value))
 
       if (data && data.success) {
         this.router.navigate(["/dashboard"]);
-        this.notification.showSuccess('Logged In Successfully');
       } else {
         this.loading = false;
-        this.notification.showError(data.errorMessage);
+        this.toaster.showError(data.errorMessage);
 
       }
 
 
     } catch (err) {
-      this.notification.showError('Something went wrong');
+      this.toaster.showError('Something went wrong');
       this.loading = false;
     }
 

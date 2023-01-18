@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  API_URL: "http://localhost:2000",
+  API_URL: "https://grm-project.vercel.app",
   production: false
 };
 

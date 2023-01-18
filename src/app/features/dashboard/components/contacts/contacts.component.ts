@@ -1,7 +1,8 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { debounceTime, distinctUntilChanged, filter, fromEvent, lastValueFrom, Observable, Subscription, tap } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
-import { NotificationService } from 'src/app/core/services/notification.service';
+import { ToastService } from 'src/app/core/services/toast.service';
+import { contacts } from '../../models/contact.model';
 
 @Component({
   selector: 'app-contacts',
@@ -15,16 +16,19 @@ export class ContactsComponent implements OnInit, AfterViewInit {
   page: number = 1
   limit: number = 10
   sort: number = 1
-  contacts: any = []
-  initial_page!: number
-  total_page!: number
-  overall_totals!: number
+  contacts: contacts = {
+    contacts: [],
+    totalCount: 0
+  }
+  initialPage!: number
+  totalPages!: number
+  overallTotal!: number
   SearchSubcription!: Subscription
   contactLoading: boolean = false
 
 
   constructor(private api: ApiService,
-    private toaster: NotificationService) { }
+    private toaster: ToastService) { }
 
   ngOnInit(): void {
     this.getContacts()
@@ -36,25 +40,24 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     this.contactLoading = true
     this.isLoading.emit(true);
     try {
-      this.contacts = await lastValueFrom(this.api.get(`contact/get-contacts/${this.page}/${this.sort}/${this.search && this.search.nativeElement ? this.search.nativeElement.value : ''}`))
-      console.log("contact",this.contacts)
+      this.contacts = <contacts>await lastValueFrom(this.api.get(`contact/get-contacts/${this.page}/${this.sort}/${this.search && this.search.nativeElement ? this.search.nativeElement.value : ''}`))
       if (!this.contacts.errorMessage) {
         if (this.page == 1) {
-          this.initial_page = this.page,
-            this.total_page = this.contacts.contacts.length,
-            this.overall_totals = this.contacts.totalCount
+          this.initialPage = this.page,
+            this.totalPages = this.contacts.contacts.length,
+            this.overallTotal = this.contacts.totalCount
 
         }
         else if (this.page > 1) {
-          this.initial_page = ((this.page - 1) * 10) + 1
+          this.initialPage = ((this.page - 1) * 10) + 1
           if (this.contacts.contacts.length == 10) {
-            this.total_page = (this.contacts.contacts.length * this.page)
+            this.totalPages = (this.contacts.contacts.length * this.page)
           }
           else {
-            this.total_page = (this.contacts.contacts.length + ((this.page - 1) * 10))
+            this.totalPages = (this.contacts.contacts.length + ((this.page - 1) * 10))
 
           }
-          this.overall_totals = this.contacts.totalCount
+          this.overallTotal = this.contacts.totalCount
         }
       } else {
         this.toaster.showError(this.contacts.errorMessage);
@@ -92,19 +95,20 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     ).subscribe();
 
   }
-  sortData(sort: number) {
-    console.log("sort", sort)
+  sortContacts(sort: number) {
     this.sort = sort
     this.page = 1
     this.getContacts();
 
   }
 
-  pageChanged(event: any) {
-    this.page = event
+  onPageChange(pageNumber: number) {
+    this.page = pageNumber
     this.getContacts()
 
   }
-
+  trackByFn(index: number) {
+    return index
+  }
 
 }

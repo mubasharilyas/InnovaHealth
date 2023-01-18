@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
   isLoading: boolean = false
   ContactsAndStats_Loading: boolean = false
 
-  constructor(private api: ApiService, public authenticationService: AuthenticationService) { }
+  constructor(private api: ApiService, public auth: AuthenticationService) { }
 
   ngOnInit(): void {
 

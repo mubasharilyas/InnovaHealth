@@ -1,7 +1,6 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-<body>
+<div>
 
     <div class="p-2">
         <div>
@@ -25,8 +24,8 @@
                         <label class="switch6-light">
                             <input type="checkbox">
                             <span>
-                                <span (click)="sortData(1)">Asc</span>
-                                <span (click)="sortData(-1)">Dec</span>
+                                <span (click)="sortContacts(1)">Asc</span>
+                                <span (click)="sortContacts(-1)">Desc</span>
                             </span>
                             <a class="btn btn-success"></a>
                         </label>
@@ -46,7 +45,7 @@
             </thead>
             <tbody *ngIf="!contactLoading">
                 <tr
-                    *ngFor="let contact of contacts.contacts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overall_totals,id:'contact'};let i=index">
+                    *ngFor="let contact of contacts.contacts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overallTotal,id:'contact'};let i=index;trackBy:trackByFn">
                     <td>{{contact.contactName}}</td>
                     <td>{{contact.contactStatus}}</td>
                     <td>{{contact.contactBeginTimestamp}} / {{contact.contactEndTimestamp}}</td>
@@ -62,32 +61,32 @@
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
-        <div *ngIf="!contactLoading && overall_totals==0"
+        <div *ngIf="!contactLoading && overallTotal==0"
             class="d-flex align-items-center justify-content-center">
             <span>
                 <p class="text-center mt-2"> <i class="fa fa-search fs-3" aria-hidden="true"></i></p>
-                <p class=" fs-5">Contact is not Found</p>
+                <p class=" fs-5">No Contact found</p>
             </span>
         </div>
 
 
-        <div *ngIf="overall_totals!=0">
+        <div *ngIf="overallTotal!=0">
             <div class="d-flex align-items-center justify-content-center">
                 <p class="text-sm ">Showing
-                    <span>{{initial_page}}</span>
+                    <span>{{initialPage}}</span>
                     to
-                    <span>{{total_page}}</span>
+                    <span>{{totalPages}}</span>
                     of
-                    <span>{{overall_totals}}</span>
+                    <span>{{overallTotal}}</span>
                     results
                 </p>
             </div>
             <div class="pagination mt-0 d-flex justify-content-center align-items-center">
-                <pagination-controls id="contact" (pageChange)="pageChanged($event)" previousLabel="Prev"
+                <pagination-controls id="contact" (pageChange)="onPageChange($event)" previousLabel="Prev"
                     nextLabel="Next" [responsive]=true></pagination-controls>
             </div>
         </div>
 
 
     </div>
-</body>
+</div>

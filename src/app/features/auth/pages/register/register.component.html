@@ -35,12 +35,7 @@
             </div>
             <div>
                 <input placeholder="Password" type="password" formControlName="password" class="form-input" />
-                <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                    <div *ngIf="f.password.errors.minlength">
-                        Password must be at least 6 characters
-                    </div>
-                </div> -->
+                <span style="color: rgb(245, 98, 6)" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">Password is Required</span>
             </div>
             <div class="d-flex flex-row">
                 <label class="mb-2 text-white">Gender</label>
@@ -59,17 +54,17 @@
 
 
             <div class="d-flex flex-row text-center ">
-                <button [disabled]="registerForm.invalid" (click)="onSubmit()" class="btn btn-success text-white">
+                <button [disabled]="registerForm.invalid" (click)="registerUser()" class="btn btn-success text-white">
                     Sign up
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 </button>
             </div>
         </form>
-     
+
 
         <div class="row last-row mt-2">
-            <span>Already a member? <a routerLink="/auth/login" > Login</a></span>
-          
+            <span>Already a member? <a routerLink="/auth/login"> Login</a></span>
+
         </div>
     </div>
 </div>

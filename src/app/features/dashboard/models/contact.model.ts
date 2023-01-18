@@ -1,4 +1,4 @@
-export class contact {
+export interface contact {
 contactId?: string;
 contactStatus?: string;
 contactName?: Number;
@@ -16,4 +16,9 @@ contactAzimuth?: Number;
 contactElevation?: Number;
 contactResolution?: string;
 contactResolutionStatus?: string
+}
+export interface contacts{
+    contacts:contact[],
+    totalCount:number,
+    errorMessage?:string
 }
