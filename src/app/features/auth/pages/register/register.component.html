@@ -18,29 +18,29 @@
         <h3 class="center">Sign up </h3>
         <form [formGroup]="registerForm">
 
-            <div>
+            <div class="pt-2">
                 <input placeholder="Full Name" type="text" formControlName="username" class="form-input" />
                 <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                     <div *ngIf="f.username.errors.required">Username is required</div>
                 </div> -->
             </div>
-            <div>
+            <div class="py-1">
                 <input placeholder="Email" type="email" formControlName="email" class="form-input" />
-                <!-- <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                    <div *ngIf="f.email.errors.required">Email is required</div>
-                    <div *ngIf="f.email.errors.email">
+                <div *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched ">
+                    <small *ngIf="email?.errors?.['required']" class="text-danger ">Email is required</small> 
+                    <small *ngIf="email?.errors?.['email']" class="text-danger">
                         Email must be a valid email address
-                    </div>
-                </div> -->
+                    </small> 
+                </div>
             </div>
-            <div>
+            <div class="py-1">
                 <input placeholder="Password" type="password" formControlName="password" class="form-input" />
                 <span style="color: rgb(245, 98, 6)" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">Password is Required</span>
             </div>
             <div class="d-flex flex-row">
                 <label class="mb-2 text-white">Gender</label>
                 <div class="d-flex flex-row mx-4">
-                    <input id="male" type="radio" class="custom-control-input mt-1" value="male" name="gender" checked
+                    <input id="male" type="radio" class="custom-control-input mt-1" value="male" name="gender"
                         formControlName="gender" style="height:22px; width:22px; ">
                     <label class="text-white custom-control-label mx-2" for="male">Male</label>
                 </div>
@@ -53,8 +53,8 @@
             </div>
 
 
-            <div class="d-flex flex-row text-center ">
-                <button [disabled]="registerForm.invalid" (click)="registerUser()" class="btn btn-success text-white">
+            <div class="d-flex flex-row align-items-center justify-content-center my-2">
+                <button [disabled]="registerForm.invalid" (click)="registerUser()" class="btn btn-success w-50  text-white" style="cursor: pointer;">
                     Sign up
                     <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                 </button>

@@ -39,7 +39,8 @@
                 <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Begin/End timestamp</th>
+                    <th scope="col">Begin Time</th>
+                    <th scope="col">End Time</th>
 
                 </tr>
             </thead>
@@ -48,7 +49,8 @@
                     *ngFor="let contact of contacts.contacts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overallTotal,id:'contact'};let i=index;trackBy:trackByFn">
                     <td>{{contact.contactName}}</td>
                     <td>{{contact.contactStatus}}</td>
-                    <td>{{contact.contactBeginTimestamp}} / {{contact.contactEndTimestamp}}</td>
+                    <td>{{contact.contactBeginTimestamp | date:'medium' }}</td> 
+                    <td>{{contact.contactEndTimestamp | date:'medium' }}</td>
 
                 </tr>
 
@@ -70,7 +72,7 @@
         </div>
 
 
-        <div *ngIf="overallTotal!=0">
+        <div *ngIf="overallTotal!=0 && !contactLoading">
             <div class="d-flex align-items-center justify-content-center">
                 <p class="text-sm ">Showing
                     <span>{{initialPage}}</span>

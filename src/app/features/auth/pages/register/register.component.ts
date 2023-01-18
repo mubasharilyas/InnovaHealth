@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { EmailValidator, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
       username: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required,Validators.email]),
       password: new FormControl('', [Validators.required]),
-      gender: new FormControl(''),
+      gender: new FormControl('male'),
     });
   }
 
@@ -52,5 +52,7 @@ export class RegisterComponent implements OnInit {
     }
 
   }
+  get email() { return this.registerForm.controls['email']; }
+
 
 }
