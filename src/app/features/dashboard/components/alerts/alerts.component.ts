@@ -34,6 +34,8 @@ export class AlertsComponent implements OnInit {
     this.alertLoading = true
     try {
       this.alerts = await lastValueFrom(this.api.get(`alert/get-alerts/${this.page}/${this.sort}`))
+      console.log("alerts",this.alerts)
+
       this.isLoading.emit(false);
       if (!this.alerts.errorMessage) {
         if (this.page == 1) {

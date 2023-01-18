@@ -37,6 +37,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     this.isLoading.emit(true);
     try {
       this.contacts = await lastValueFrom(this.api.get(`contact/get-contacts/${this.page}/${this.sort}/${this.search && this.search.nativeElement ? this.search.nativeElement.value : ''}`))
+      console.log("contact",this.contacts)
       if (!this.contacts.errorMessage) {
         if (this.page == 1) {
           this.initial_page = this.page,

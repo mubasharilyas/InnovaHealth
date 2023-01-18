@@ -4,58 +4,64 @@
 <body>
 
     <div class="p-2">
-        <div class="searchContainer  justify-content-between">
-            <label class="fw-bold fs-4"> Contacts List</label>
-            <div class="searchandSort w-20  justify-content-end w-75">
-                <div class="searchinput">
-                    <div class="input-group input-group-sm">
-                        <input #search class="form-control" type="search" placeholder="search"
-                            id="example-search-input">
-                        <i class="position-absolute fa fa-search end-0 mt-2 mx-2" aria-hidden="true"></i>
-                    </div>
-
+        <div>
+            <label class="fw-bold fs-4"> Contacts</label>
+        </div>
+        <div class="searchContainer mt-2">
+        <div class="searchandSort  justify-content-between w-100 ">
+            <div class="searchinput">
+                <div class="input-group input-group-sm ">
+                    <input #search class="form-control" type="search" placeholder="search"
+                        id="example-search-input">
+                    <i class="position-absolute fa fa-search end-0 mt-2 mx-2" aria-hidden="true"></i>
                 </div>
-                <div class="sort-margin d-flex align-items-center">
-                    <span class="sort">Sort:</span>
-                    <div class="col-md-4">
-                        <div class="switch6"
-                            style="width: 10rem; margin-right: 0; border:1px solid #999999;border-radius: 10px; ">
-                            <label class="switch6-light">
-                                <input type="checkbox">
-                                <span>
-                                    <span (click)="sortData(1)">Asc</span>
-                                    <span (click)="sortData(-1)">Dec</span>
-                                </span>
-                                <a class="btn btn-success"></a>
-                            </label>
-                        </div>
+
+            </div>
+            <div class="sort-margin d-flex align-items-center">
+                <span class="sort">Sort:</span>
+                <div class="col-md-4">
+                    <div class="switch6"
+                        style="width: 8rem; margin-right: 0; border:1px solid #999999;border-radius: 10px; ">
+                        <label class="switch6-light">
+                            <input type="checkbox">
+                            <span>
+                                <span (click)="sortData(1)">Asc</span>
+                                <span (click)="sortData(-1)">Dec</span>
+                            </span>
+                            <a class="btn btn-success"></a>
+                        </label>
                     </div>
                 </div>
             </div>
         </div>
-
-        <table class="table border mt-2">
+        </div>
+        <table class="table border mt-3">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Contact State</th>
-                    <th scope="col">Contact Status</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Begin/End timestamp</th>
+
                 </tr>
             </thead>
             <tbody *ngIf="!contactLoading">
                 <tr
                     *ngFor="let contact of contacts.contacts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overall_totals,id:'contact'};let i=index">
-                    <th scope="row">{{i+1}}</th>
                     <td>{{contact.contactName}}</td>
-                    <td>{{contact.contactState}}</td>
                     <td>{{contact.contactStatus}}</td>
+                    <td>{{contact.contactBeginTimestamp}} / {{contact.contactEndTimestamp}}</td>
+
                 </tr>
 
             </tbody>
 
 
         </table>
+        <div *ngIf="contactLoading" class="d-flex justify-content-center">
+            <div class="spinner-border text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
         <div *ngIf="!contactLoading && overall_totals==0"
             class="d-flex align-items-center justify-content-center">
             <span>
@@ -65,7 +71,7 @@
         </div>
 
 
-        <div *ngIf="overall_totals!=0" class="d-sm-flex  justify-content-between">
+        <div *ngIf="overall_totals!=0">
             <div class="d-flex align-items-center justify-content-center">
                 <p class="text-sm ">Showing
                     <span>{{initial_page}}</span>
@@ -76,7 +82,7 @@
                     results
                 </p>
             </div>
-            <div class="mt-0 d-flex justify-content-center align-items-center">
+            <div class="pagination mt-0 d-flex justify-content-center align-items-center">
                 <pagination-controls id="contact" (pageChange)="pageChanged($event)" previousLabel="Prev"
                     nextLabel="Next" [responsive]=true></pagination-controls>
             </div>

@@ -1,69 +1,76 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <body>
-    <div>
-        
-        <div class="searchContainer  justify-content-between">
-          <label class="fw-bold fs-4"> Alert List</label>
-          <div class="searchandSort w-20  justify-content-end w-75">
-              <div class="d-flex align-items-center">
-                  <span class="sort">Sort:</span>
-                  <div class="col-md-4">
-                      <div class="switch6"
-                          style="width: 10rem; margin-right: 0; border:1px solid #999999;border-radius: 10px; ">
-                          <label class="switch6-light">
-                              <input type="checkbox">
-                              <span>
-                                  <span (click)="sortData(1)">Asc</span>
-                                  <span (click)="sortData(-1)">Dec</span>
-                              </span>
-                              <a class="btn btn-success"></a>
-                          </label>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
+    <div class="p-2 mt-1">
 
-<table class="table border mt-2">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Category</th>
-        <th scope="col">Severity</th>
-        <th scope="col">Message</th>
-      </tr>
-    </thead>
-    <tbody *ngIf="!alertLoading">
-      <tr *ngFor="let alert of alerts.alerts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overall_total, id:'alert'};let i=index">
-        <th scope="row">{{i+1}}</th>
-        <td>{{alert.errorCategory}}</td>
-        <td>{{alert.errorSeverity}}</td>
-        <td>{{alert.errorMessage}}</td>
-    </tr>
-    </tbody>
-  </table>
-  <div *ngIf="!alertLoading && overall_total==0"
-  class="d-flex align-items-center justify-content-center">
-  <span>
-      <p class="text-center mt-2"> <i class="fa fa-search fs-3" aria-hidden="true"></i></p>
-      <p class=" fs-5">Alert is not Found</p>
-  </span>
-</div>
-  <div *ngIf="overall_total!=0" class="d-sm-flex  justify-content-between">
-    <div class="d-flex align-items-center justify-content-center">
-       <p class="text-sm ">Showing
-        <span>{{initial_page}}</span>
-        to
-        <span>{{total_page}}</span>
-        of
-        <span>{{overall_total}}</span>
-        results
-       </p>
-    </div>
-    <div class="mt-0 d-flex justify-content-center align-items-center">
-        <pagination-controls id='alert' (pageChange)="alertPageChanged($event)"  previousLabel="Prev" nextLabel="Next" [responsive]=true></pagination-controls>
-    </div>
-</div>
+        <div class="">
+            <label class="fw-bold fs-4"> Alerts</label>
+
+        </div>
+        <div class="searchContainer  mt-2">
+            <div class="searchandSort  justify-content-end w-100">
+                <div class="d-flex align-items-center">
+                    <span class="sort">Sort:</span>
+                    <div class="col-md-4">
+                        <div class="switch6"
+                            style="width: 8rem; margin-right: 0; border:1px solid #999999;border-radius: 10px; ">
+                            <label class="switch6-light">
+                                <input type="checkbox">
+                                <span>
+                                    <span (click)="sortData(1)">Asc</span>
+                                    <span (click)="sortData(-1)">Dec</span>
+                                </span>
+                                <a class="btn btn-success"></a>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table border mt-3">
+            <thead>
+                <tr>
+                    <th scope="col">Message</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Time</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="!alertLoading">
+                <tr
+                    *ngFor="let alert of alerts.alerts | paginate : { itemsPerPage: limit,currentPage: page,totalItems: overall_total, id:'alert'};let i=index">
+                    <td>{{alert.errorMessage}}</td>
+                    <td>{{alert.errorCategory}}</td>
+                    <td>{{alert.errorTime}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="alertLoading" class="d-flex justify-content-center">
+            <div class="spinner-border text-success" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div *ngIf="!alertLoading && overall_total==0" class="d-flex align-items-center justify-content-center">
+            <span>
+                <p class="text-center mt-2"> <i class="fa fa-search fs-3" aria-hidden="true"></i></p>
+                <p class=" fs-5">Alert is not Found</p>
+            </span>
+        </div>
+        <div *ngIf="overall_total!=0" >
+            <div class="d-flex align-items-center justify-content-center">
+                <p class="text-sm">Showing
+                    <span>{{initial_page}}</span>
+                    to
+                    <span>{{total_page}}</span>
+                    of
+                    <span>{{overall_total}}</span>
+                    results
+                </p>
+            </div>
+            <div class="mt-0 d-flex justify-content-center align-items-center">
+                <pagination-controls id='alert' (pageChange)="alertPageChanged($event)" previousLabel="Prev"
+                    nextLabel="Next" [responsive]=true></pagination-controls>
+            </div>
+        </div>
     </div>
 </body>

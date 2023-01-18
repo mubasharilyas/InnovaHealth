@@ -10,7 +10,9 @@
 </head>
 
 <body>
-  <div *ngIf="false" class="loader"></div>
+
+  
+  <!-- <div *ngIf="false" class="loader"></div> -->
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -37,9 +39,15 @@
         <div class="card shadow border-0">
           <div class="card-body">
             <div class="row text-center">
-              <div class="col">
+              <div class="col align-items-center ">
                 <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total Contacts</span>
-                <span class="h3 font-bold  mb-0">{{totalContacts}}</span>
+                <span *ngIf="false" class="h3 font-bold  mb-0">{{totalContacts}}</span>
+                <div class="d-block ">
+                <p class="loading-skeleton position-absolute  h3 font-bold mt-1  mb-0 " style="height: 15px; width: 30%; background-color: rgb(168, 167, 167); border-radius: 3px;"></p>
+                <p class="loading-skeleton h3 font-bold  mt-1 mb-0 " style="height: 15px; width: 20%; background-color: rgb(168, 167, 167); border-radius: 3px;"></p>
+                <p class="loading-skeleton h3 font-bold  mt-1 mb-0 " style="height: 15px; width: 10%; background-color: rgb(168, 167, 167); border-radius: 3px;"></p>
+              
+              </div>
               </div>
               <div class="col-auto">
                 <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
@@ -62,7 +70,11 @@
             <div class="row text-center">
               <div class="col">
                 <span class="h6 font-semibold text-muted text-sm d-block mb-2">Total States</span>
-                <span class="h3 font-bold mb-0">{{totalStates}}</span>
+                <span *ngIf="!ContactsAndStats_Loading" class="h3 font-bold mb-0">{{totalStates}}</span>
+                <p *ngIf="ContactsAndStats_Loading" class="loading-skeleton h3 font-bold  mb-0"></p>
+                <b-skeleton></b-skeleton>
+
+
               </div>
               <div class="col-auto">
                 <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
@@ -87,14 +99,26 @@
 
 
 
-    <div class=" my-4 bg-light rounded-3">
-      <app-contacts (isLoading)=onLoading($event)></app-contacts>
+    <!-- <div class=" my-4 bg-light rounded-3 d-flex flex-row">
+      <div >
+        <app-contacts (isLoading)=onLoading($event)></app-contacts>
+      </div>
+      <div>
+        <custom-alett-widget (isLoading)=onLoading($event)></custom-alett-widget>
+      </div>
+    </div> -->
+      <div class="row ">
+        <div class="col">
+          <app-contacts (isLoading)=onLoading($event)></app-contacts>
+        </div>
+        <div class="col">
+          <custom-alett-widget (isLoading)=onLoading($event)></custom-alett-widget>
+        </div>
+       
+      </div>
+    <!-- <div class=" my-4 bg-light rounded-3">
 
-    </div>
-    <div class=" my-4 bg-light rounded-3">
-      <custom-alett-widget (isLoading)=onLoading($event)></custom-alett-widget>
-
-    </div>
+    </div> -->
 
 
     <footer class="footer">
