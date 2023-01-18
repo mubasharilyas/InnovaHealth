@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { EmailValidator, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first, lastValueFrom } from 'rxjs';
 import { ApiService } from 'src/app/core/services/api.service';
@@ -22,7 +22,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required,Validators.email]),
       password: new FormControl('', [Validators.required]),
       gender: new FormControl('male'),
     });
@@ -55,5 +55,7 @@ export class RegisterComponent implements OnInit {
     }
 
   }
+  get email() { return this.registerForm.controls['email']; }
+
 
 }
