@@ -4,7 +4,7 @@ export interface alert {
     errorCategory: String,
     errorMessage: String,
     longMessage: String,
-    errorTime: Number,
+    errorTime: number,
     selected: Boolean,
     new: Boolean,
     expanded: Boolean
