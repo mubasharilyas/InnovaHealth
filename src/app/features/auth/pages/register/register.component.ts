@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required,Validators.email]),
       password: new FormControl('', [Validators.required]),
       gender: new FormControl(''),
     });
@@ -36,14 +36,14 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
     try {
       let data = await lastValueFrom(this.auth.register(this.registerForm.value));
-      if (data) {
+      if (!data.errorMessage) {
         this.loading = false;
         this.registerForm.reset()
-        this.toast.showSuccess('Register Successfully');
+        this.toast.showSuccess('You are registered successfully');
         this.router.navigate(["/login"]);
       }
       else {
-        this.toast.showError('something wrong');
+        this.toast.showError(data.errorMessage);
         this.loading = false;
 
       }
